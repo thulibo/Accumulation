@@ -1,4 +1,4 @@
-package dataStruction;
+package interview;
 
 /**
 *
