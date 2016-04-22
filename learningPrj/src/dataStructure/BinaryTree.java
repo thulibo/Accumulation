@@ -120,15 +120,21 @@ public class BinaryTree {
     public static void main(String[] args) {
         BinaryTree binaryTreeExample = new BinaryTree(new Node(15, 0.1f));
 
+        System.out.println("=====the insert order: =====");
         Random random = new Random(System.currentTimeMillis());
         for (int i = 0; i < 10; i++) {
-            binaryTreeExample.insert(random.nextInt(99), random.nextFloat());
+            int keyData = random.nextInt(99);
+            float data = random.nextFloat();
+            // 打印出插入顺序，以便恢复树型
+            System.out.println("key: " + keyData + ", value: " + data);
+
+            binaryTreeExample.insert(keyData, data);
         }
 
-        System.out.println("in order all: ");
+        System.out.println("=====in order all: =====");
         binaryTreeExample.inOrderAll();
 
-        System.out.println("print all layer by layer: ");
+        System.out.println("=====print all layer by layer: =====");
         binaryTreeExample.printDataLayerByLayer();
     }
 }
