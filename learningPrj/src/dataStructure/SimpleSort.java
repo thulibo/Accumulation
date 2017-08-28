@@ -121,7 +121,72 @@ public class SimpleSort {
         }
     }
 
+    /**
+     * 二分查找，非递归
+     * 
+     * @author libo09@mails.tsinghua.edu.cn
+     * 
+     * @param target
+     * @param inputArray
+     * @return 返回查找到与目标数相等的数组下标，-1表示没有找到
+     */
+    public static int binarySearch(int target, int[] inputArray) {
+        if (null == inputArray || inputArray.length == 0) {
+            System.err.println("input array is empty!!");
+            return -1;
+        }
+
+        int left = 0;
+        int right = inputArray.length;
+
+        while (left <= right) {
+            int middle = (left + right) >> 1;
+            if (target == inputArray[middle]) {
+                return middle;
+            }
+            if (target < inputArray[middle]) {
+                right = middle - 1;
+            } else if (target > inputArray[middle]) {
+                left = middle + 1;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * 二分查找，递归
+     * 
+     * @author libo09@mails.tsinghua.edu.cn
+     * 
+     * @param target
+     * @param left
+     * @param right
+     * @param inputArray
+     * @return 返回查找到与目标数相等的数组下标，-1表示没有找到
+     */
+    public static int binarySearchRecursive(int target, int left, int right, Integer[] inputArray) {
+        if (null == inputArray || inputArray.length == 0) {
+            return -1;
+        }
+
+        if (left > right) {
+            return -1;
+        }
+
+        int middle = (left + right) >> 1;
+        if (target == inputArray[middle]) {
+            return middle;
+        }
+        if (target < inputArray[middle]) {
+            return binarySearchRecursive(target, left, middle - 1, inputArray);
+        }
+        return binarySearchRecursive(target, middle + 1, right, inputArray);
+    }
+
     public static void main(String[] args) {
+        System.out.println("haha".hashCode());
+
         System.out.println("=======测试开始=======");
         System.out.println("请输入一组整数数组：");
 
@@ -155,6 +220,11 @@ public class SimpleSort {
             for (int j = 0; j < inputIntArray.length; j++) {
                 System.out.println(inputIntArray[j]);
             }
+
+            System.out.println("=========通过二分查找（非递归）后========");
+            System.out.println(binarySearch(10, inputIntArray));
+            System.out.println("=========通过二分查找（递归）后========");
+            System.out.println(binarySearchRecursive(10, 0, inputArray.length - 1, inputArray));
         }
     }
 }
