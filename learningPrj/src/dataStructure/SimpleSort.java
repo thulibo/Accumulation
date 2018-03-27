@@ -184,12 +184,85 @@ public class SimpleSort {
         return binarySearchRecursive(target, middle + 1, right, inputArray);
     }
 
+    /**
+     * 快速排序
+     * 
+     * @author libo09@mails.tsinghua.edu.cn
+     * 
+     * 
+     * @param left
+     * @param right
+     * @param array
+     */
+    public static void quickSort(int left, int right, Integer[] array) {
+        int middle = partition(left, right, array);
+        if (middle - 1 > left) {
+            quickSort(left, middle - 1, array);
+        }
+        if (right > middle + 1) {
+            quickSort(middle + 1, right, array);
+        }
+    }
+
+    /**
+     * 快排第一阶段：分组
+     * 
+     * @author libo09@mails.tsinghua.edu.cn
+     * 
+     * @param left
+     * @param right
+     * @param array
+     * @return
+     */
+    private static int partition(int left, int right, Integer[] array) {
+        int lastOne = array[right];
+        int i = left, j = right - 1;
+
+        while (i < j) {
+            if (array[i] <= lastOne) {
+                i++;
+                continue;
+            }
+
+            if (array[j] > lastOne) {
+                j--;
+                continue;
+            }
+
+            swap(i, j, array);
+        }
+
+        if (array[i] <= lastOne) {
+            i++;
+        }
+
+        swap(i, right, array);
+        return i;
+    }
+
+    /**
+     * 交换数组下标i、j对应元素
+     *
+     * @author libo09@mails.tsinghua.edu.cn
+     * 
+     * 
+     * @param i
+     * @param j
+     * @param array
+     */
+    private static void swap(int i, int j, Integer[] array) {
+        int tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
+    }
+
     public static void main(String[] args) {
         System.out.println("haha".hashCode());
 
         System.out.println("=======测试开始=======");
         System.out.println("请输入一组整数数组：");
 
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         List<Integer> inputInts = new ArrayList<Integer>();
 
@@ -201,9 +274,12 @@ public class SimpleSort {
         if (scanner.hasNextLine()) {
             Integer[] inputArray = inputInts.toArray(new Integer[0]);
 
-            insertSort(inputArray);
+            // insertSort(inputArray);
+            // System.out.println("=========通过插入法排序后========");
 
-            System.out.println("=========通过插入法排序后========");
+            quickSort(0, inputArray.length - 1, inputArray);
+            System.out.println("=========通过快速排序后========");
+
             for (int j = 0; j < inputInts.size(); j++) {
                 System.out.println(inputArray[j]);
             }
