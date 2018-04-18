@@ -9,7 +9,14 @@ package interview;
  */
 public class BackslashPrintArray {
 
-    public static int[][] constructResultArray(int[][] inputArray) {
+    /**
+     * 对n*n的数组，按反斜杠顺序打印出来
+     * 
+     * @author libo09@mails.tsinghua.edu.cn
+     * 
+     * @param inputArray
+     */
+    public static void backslashPrintArray(int[][] inputArray) {
         int[][] resultArray = new int[2 * inputArray.length - 1][inputArray.length];
         for (int row = 0; row < resultArray.length; row++) {
             resultArray[row] = new int[inputArray.length];
@@ -32,12 +39,15 @@ public class BackslashPrintArray {
             }
             System.out.println();
         }
-
-        return inputArray;
     }
 
+    /**
+     * main test case
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
-        constructResultArray(new int[][] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } });
+        backslashPrintArray(new int[][] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } });
     }
 
 }
