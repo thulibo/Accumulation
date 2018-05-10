@@ -170,6 +170,8 @@ public class BinaryTree {
         queue.add(level, currentNode.keyData);
 
         if (currentNode.leftChildNode == null && currentNode.rightChildNode == null) {
+            // 使用-1作为标记，原因是List的add(index, element)方法会将index及其之后的元素右移，导致list数据混乱
+            // 可以尝试将下面if条件去掉，看看不处理的结果
             queue.add(level + 1, -1);
 
             StringBuilder result = new StringBuilder();
