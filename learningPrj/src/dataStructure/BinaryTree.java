@@ -8,13 +8,12 @@ import java.util.Stack;
 /**
  * 二叉树相关常见操作
  *
- * @author libo <br>
- *         E-mail:libo09@mails.tsinghua.edu.cn
- * @date 创建时间：2015年3月17日 上午10:15:32
+ * @author libo <br> E-mail:libo09@mails.tsinghua.edu.cn
  * @version 1.0
- *
+ * @date 创建时间：2015年3月17日 上午10:15:32
  */
 public class BinaryTree {
+
     private Node root;
 
     public BinaryTree(Node initRootNode) {
@@ -22,11 +21,7 @@ public class BinaryTree {
     }
 
     /**
-     * 向二叉搜索树中插入一个新节点<BR>
-     * 即是构造一颗二叉搜索树
-     * 
-     * @param key
-     * @param data
+     * 向二叉搜索树中插入一个新节点<BR> 即是构造一颗二叉搜索树
      */
     public void insert(int key, float data) {
         Node newNode = new Node(key, data);
@@ -59,8 +54,6 @@ public class BinaryTree {
 
     /**
      * 递归中序遍历
-     * 
-     * @param currentNode
      */
     public void inOrder(Node currentNode) {
         if (currentNode == null) {
@@ -78,8 +71,6 @@ public class BinaryTree {
 
     /**
      * 非递归中序遍历（这是一个通用的非递归方法，只需类似递归那样调整顺序即可）
-     * 
-     * @param currentNode
      */
     public void inOrderNonIncursive(Node currentNode) {
         if (null == currentNode) {
@@ -95,7 +86,8 @@ public class BinaryTree {
 
             if (currentWrapperedNode.isVisited) {
                 System.out.println(
-                        "Node: key=" + currentWrapperedNode.node.keyData + ", data=" + currentWrapperedNode.node.data);
+                    "Node: key=" + currentWrapperedNode.node.keyData + ", data="
+                        + currentWrapperedNode.node.data);
             } else {
                 if (currentWrapperedNode.node.rightChildNode != null) {
                     stack.push(new WrapperedNode(currentWrapperedNode.node.rightChildNode, false));
@@ -116,8 +108,7 @@ public class BinaryTree {
     }
 
     /**
-     * 分层依次从左到右遍历打印二叉树<BR>
-     * 队列解法
+     * 分层依次从左到右遍历打印二叉树<BR> 队列解法
      */
     public void printDataLayerByLayer() {
         // 边界检查
@@ -159,8 +150,6 @@ public class BinaryTree {
 
     /**
      * 打印从当前节点到末梢叶节点的所有路径
-     * 
-     * @param currentNode
      */
     public void printEachBranch(Node currentNode, List<Integer> queue, int level) {
         if (null == currentNode) {
@@ -191,6 +180,27 @@ public class BinaryTree {
         printEachBranch(currentNode.rightChildNode, queue, level + 1);
     }
 
+
+    List<List<Integer>> branchLists = new LinkedList<>();
+
+    /**
+     * 打印从当前节点到末梢叶节点的所有路径（先存储所有路径，再打印）
+     */
+    public void printEachBranch2(Node currentNode, List<Integer> eachBranchList) {
+        List<Integer> newBranchList = new LinkedList<>(eachBranchList);
+        newBranchList.add(currentNode.keyData);
+        if (currentNode.leftChildNode == null && currentNode.rightChildNode == null) {
+            branchLists.add(newBranchList);
+            return;
+        }
+        if (currentNode.leftChildNode != null) {
+            printEachBranch2(currentNode.leftChildNode, newBranchList);
+        }
+        if (currentNode.rightChildNode != null) {
+            printEachBranch2(currentNode.rightChildNode, newBranchList);
+        }
+    }
+
     public static void main(String[] args) {
         BinaryTree binaryTreeExample = new BinaryTree(new Node(15, 0.1f));
 
@@ -215,20 +225,28 @@ public class BinaryTree {
         binaryTreeExample.printDataLayerByLayer();
 
         System.out.println("=====print all path from root to leaf: =====");
-        binaryTreeExample.printEachBranch(binaryTreeExample.root, new LinkedList<Integer>(), 0);
+        binaryTreeExample.printEachBranch(binaryTreeExample.root, new LinkedList<>(), 0);
+
+        System.out.println("=====print all path from root to leaf 2: =====");
+        binaryTreeExample.printEachBranch2(binaryTreeExample.root, new LinkedList<>());
+        for (List<Integer> eachBranch : binaryTreeExample.branchLists) {
+            for (int key : eachBranch) {
+                System.out.print(key + "->");
+            }
+            System.out.println("END");
+        }
     }
 }
 
 /**
  * 二叉树节点
  *
- * @author libo <br>
- *         E-mail:libo09@mails.tsinghua.edu.cn
- * @date 创建时间：2015年3月17日 上午10:15:32
+ * @author libo <br> E-mail:libo09@mails.tsinghua.edu.cn
  * @version 1.0
- *
+ * @date 创建时间：2015年3月17日 上午10:15:32
  */
 class Node {
+
     public int keyData;// 二叉搜索树的键值
     public float data;// 存储的数据（更广义的应该是数据对象）
     public Node leftChildNode;
@@ -241,15 +259,14 @@ class Node {
 }
 
 /**
- * 通过组合，包装后的二叉树节点<BR>
- * （基于基本节点数据结构添加一个boolean型属性，用以在借助栈的非递归中序遍历中标识是否已访问）
+ * 通过组合，包装后的二叉树节点<BR> （基于基本节点数据结构添加一个boolean型属性，用以在借助栈的非递归中序遍历中标识是否已访问）
  *
- * @author libo <br>
- *         E-mail:libo09@mails.tsinghua.edu.cn
- * @date 创建时间：2016年5月3日 上午10:25:32
+ * @author libo <br> E-mail:libo09@mails.tsinghua.edu.cn
  * @version 1.0
+ * @date 创建时间：2016年5月3日 上午10:25:32
  */
 class WrapperedNode {
+
     /**
      * 用以在借助栈的非递归中序遍历中标识是否已访问
      */
