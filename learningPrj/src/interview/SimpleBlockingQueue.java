@@ -82,28 +82,29 @@ public class SimpleBlockingQueue<T> {
         SimpleBlockingQueue<Integer> simpleBlockingQueue = new SimpleBlockingQueue<Integer>(4);
         // 生产
         final AtomicInteger counter = new AtomicInteger(0);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    simpleBlockingQueue.put(counter.incrementAndGet());
+        new Thread(() -> {
+            while (true) {
+                if (counter.get() % 5 == 0) {
+                    try {
+                        Thread.sleep(3 * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+                simpleBlockingQueue.put(counter.incrementAndGet());
             }
         }).start();
 
         // 消费
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    System.out.println("===== " + simpleBlockingQueue.take());
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
+                System.out.println("===== " + simpleBlockingQueue.take());
             }
         }).start();
 
